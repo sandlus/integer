@@ -130,12 +130,9 @@ def value_or_na(value):
 
 
 def po_link_label(site_id):
-    if site_id is None or site_id == "":
-        return "N/A"
-
     return (
         "Kindly click on below link to find PO Amount and PO Number\n"
-        f"🔗 /po_list?site_id={site_id}"
+        "🔗 https://integermobile.com/po_list"
     )
 
 
