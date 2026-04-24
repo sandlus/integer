@@ -58,27 +58,16 @@ BASE_SELECT = """
         ON s.project_id = p.id
     LEFT JOIN (
         SELECT
-            b1.site_id,
+            b.site_id,
             inv.invoice_amount,
             inv.invoice_date
-        FROM billing b1
-        INNER JOIN (
-            SELECT
-                site_id,
-                MAX(id) AS max_billing_id
-            FROM billing
-            WHERE po_inv_id IS NOT NULL
-              AND po_inv_id <> ''
-            GROUP BY site_id
-        ) b2
-            ON b1.site_id = b2.site_id
-           AND b1.id = b2.max_billing_id
+        FROM billing b
         LEFT JOIN po_invoice inv
-            ON inv.id = b1.po_inv_id
+            ON inv.id = b.po_inv_id
+        WHERE b.po_inv_id IS NOT NULL
     ) latest_inv
         ON latest_inv.site_id = s.id
 """
-
 
 def get_by_ticket_id(ticket_id: str):
     query = BASE_SELECT + """
